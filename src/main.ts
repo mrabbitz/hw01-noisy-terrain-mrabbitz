@@ -11,8 +11,12 @@ import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  tesselations: 5,
-  'Load Scene': loadScene, // A function pointer, essentially
+  warpDistortion: 0.3,
+  fractalIncrement: 2.1,
+  lucinarity: 1.1,
+  octaves: 8.0,
+  elevationExponent: 1.0
+
 };
 
 let square: Square;
@@ -22,6 +26,8 @@ let aPressed: boolean;
 let sPressed: boolean;
 let dPressed: boolean;
 let planePos: vec2;
+
+let timeStamp: number;
 
 function loadScene() {
   square = new Square(vec3.fromValues(0, 0, 0));
@@ -34,6 +40,8 @@ function loadScene() {
   sPressed = false;
   dPressed = false;
   planePos = vec2.fromValues(0,0);
+
+  timeStamp = 0.0;
 }
 
 function main() {
@@ -82,6 +90,12 @@ function main() {
 
   // Add controls to the gui
   const gui = new DAT.GUI();
+
+  gui.add(controls, 'warpDistortion', -3.0, 3.0).step(0.1);
+  gui.add(controls, 'fractalIncrement', 0.0, 4.0).step(0.05);
+  gui.add(controls, 'lucinarity', 0.0, 4.0).step(0.05);
+  gui.add(controls, 'octaves', 0.0, 15.0).step(0.1);
+  gui.add(controls, 'elevationExponent', 0.1, 10.0).step(0.05);
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -134,15 +148,16 @@ function main() {
 
   // This function will be called every frame
   function tick() {
+    //timeStamp += 1.0;
     camera.update();
     stats.begin();
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
     processKeyPresses();
-    renderer.render(camera, lambert, [
+    renderer.render(controls.elevationExponent, controls.octaves, controls.lucinarity, controls.fractalIncrement, controls.warpDistortion, camera, lambert, [
       plane,
     ]);
-    renderer.render(camera, flat, [
+    renderer.render(controls.elevationExponent, controls.octaves, controls.lucinarity, controls.fractalIncrement, controls.warpDistortion, camera, flat, [
       square,
     ]);
     stats.end();

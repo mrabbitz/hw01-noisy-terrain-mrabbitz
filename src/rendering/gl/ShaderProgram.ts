@@ -31,6 +31,15 @@ class ShaderProgram {
   unifColor: WebGLUniformLocation;
   unifPlanePos: WebGLUniformLocation;
 
+  unifTime: WebGLUniformLocation;
+
+  unifDistortion: WebGLUniformLocation;
+
+  unifFractalIncrement: WebGLUniformLocation;
+  unifLucinarity: WebGLUniformLocation;
+  unifOctaves: WebGLUniformLocation;
+  unifElevationExponent: WebGLUniformLocation;
+
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
 
@@ -49,6 +58,13 @@ class ShaderProgram {
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifPlanePos   = gl.getUniformLocation(this.prog, "u_PlanePos");
+  
+    this.unifTime = gl.getUniformLocation(this.prog, "u_Time");
+    this.unifDistortion = gl.getUniformLocation(this.prog, "u_Distortion");
+    this.unifFractalIncrement = gl.getUniformLocation(this.prog, "u_FractalIncrement");
+    this.unifLucinarity = gl.getUniformLocation(this.prog, "u_Lucinarity");
+    this.unifOctaves = gl.getUniformLocation(this.prog, "u_Octaves");
+    this.unifElevationExponent = gl.getUniformLocation(this.prog, "u_ElevationExponent");
   }
 
   use() {
@@ -57,6 +73,63 @@ class ShaderProgram {
       activeProgram = this.prog;
     }
   }
+
+setElevationExponent(exponent: number)
+  {
+      this.use();
+  
+      if(this.unifElevationExponent !== -1)
+      {
+          gl.uniform1f(this.unifElevationExponent, exponent);
+      }
+  }
+setOctaves(octaves: number)
+{
+    this.use();
+
+    if(this.unifOctaves !== -1)
+    {
+        gl.uniform1f(this.unifOctaves, octaves);
+    }
+}
+setLucinarity(lucinarity: number)
+{
+    this.use();
+
+    if(this.unifLucinarity !== -1)
+    {
+        gl.uniform1f(this.unifLucinarity, lucinarity);
+    }
+}
+setFractalIncrement(increment: number)
+{
+    this.use();
+
+    if(this.unifFractalIncrement !== -1)
+    {
+        gl.uniform1f(this.unifFractalIncrement, increment);
+    }
+}
+
+setDistortion(distortion: number)
+{
+    this.use();
+
+    if(this.unifDistortion !== -1)
+    {
+        gl.uniform1f(this.unifDistortion, distortion);
+    }
+}
+
+setTime(time: number)
+{
+    this.use();
+
+    if(this.unifTime !== -1)
+    {
+        gl.uniform1f(this.unifTime, time);
+    }
+}
 
   setModelMatrix(model: mat4) {
     this.use();
