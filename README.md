@@ -1,4 +1,20 @@
 # CIS 566 Homework 1: Noisy Terrain
+Mike Rabbitz (mrabbitz)
+
+## Live Demo
+https://mrabbitz.github.io/hw01-noisy-terrain-mrabbitz/
+
+## Citations
+### Noise:
+https://thebookofshaders.com/
+
+University of Pennsylvania Course Materials
+
+### Terrain:
+Procedural Fractal Terrains paper by F. Kenton Musgrave
+https://www.redblobgames.com/maps/terrain-from-noise/
+
+
 
 ## Objective
 - Continue practicing WebGL and Typescript
